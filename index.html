@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="本田貴裕 — 経営者 × AI Developer。5事業を経営しながらClaude Codeを活用したAI Executive Advisor Systemを独自構築。経営×AIの実践者として同じ課題を持つ経営者を支援します。">
+  <meta property="og:title" content="本田 貴裕 | 経営者 × AI Developer">
+  <meta property="og:description" content="5事業を経営しながらAI Executive Advisor Systemを独自構築。経営×AIの実践家。">
+  <meta property="og:type" content="website">
+  <title>本田 貴裕 | 経営者 × AI Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── RESET & TOKENS ────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --pink:       #e8a4b8;
+      --pink-dark:  #d48fa3;
+      --pink-soft:  #fff0f3;
+      --bg:         #ffffff;
+      --bg-warm:    #faf9f5;
+      --bg-off:     #fafafa;
+      --bg-light:   #f5f5f5;
+      --text:       #333333;
+      --text-2:     #888888;
+      --text-3:     #bbbbbb;
+      --border:     #eeeeee;
+      --serif:      'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+      --sans:       'Noto Sans JP', 'Hiragino Kaku Gothic Pro', sans-serif;
+      --ease:       cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { background: var(--bg); color: var(--text); font-family: var(--serif); line-height: 1.8; overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ─── SCROLL ANIMATION ─────────────────────────────── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+    .reveal.show { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ─── UTILITY ──────────────────────────────────────── */
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 40px; }
+    .section { padding: 96px 0; }
+    .section-bg { background: var(--bg-warm); }
+    .section-bg-light { background: var(--bg-light); }
+
+    .eyebrow {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--pink);
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+    .eyebrow::before, .eyebrow::after { content: ''; flex: 1; max-width: 40px; height: 1px; background: var(--pink); opacity: .5; }
+    .eyebrow.left::before { display: none; }
+
+    .heading {
+      font-family: var(--serif);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .lead {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.9;
+      margin-top: 12px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--sans);
+      font-size: 14px; font-weight: 500;
+      padding: 12px 32px;
+      border-radius: 50px;
+      transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--pink); color: #fff; border: 1px solid var(--pink); }
+    .btn-primary:hover { background: var(--pink-dark); border-color: var(--pink-dark); box-shadow: rgba(232,164,184,.4) 0 10px 30px; }
+    .btn-ghost { background: transparent; color: var(--text-2); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--pink); color: var(--pink); }
+
+    /* ─── NAV ──────────────────────────────────────────── */
+    #nav {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow 0.3s var(--ease);
+    }
+    #nav.scrolled { box-shadow: rgba(0,0,0,.06) 0 2px 12px; }
+    .nav-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      color: var(--text);
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-2);
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+      height: 1px; background: var(--pink);
+      transform: scaleX(0); transition: transform 0.3s var(--ease);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      font-family: var(--sans); font-size: 13px; font-weight: 500;
+      color: var(--pink); border: 1px solid var(--pink);
+      padding: 7px 20px; border-radius: 50px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--pink); color: #fff; }
+
+    /* ─── HERO ─────────────────────────────────────────── */
+    #hero {
+      min-height: calc(100vh - 64px);
+      display: flex; align-items: center;
+      padding: 80px 0 60px;
+    }
+    .hero-inner {
+      max-width: 1160px; margin: 0 auto; padding: 0 40px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--pink-soft); color: var(--pink);
+      font-family: var(--sans); font-size: 12px; font-weight: 600;
+      padding: 6px 16px; border-radius: 50px;
+      margin-bottom: 28px;
+    }
+    .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pink); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(52px, 6vw, 80px);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .hero-name .en { font-size: 0.35em; letter-spacing: 0.2em; color: var(--text-2); display: block; margin-bottom: 8px; font-family: var(--sans); font-weight: 400; }
+    .hero-name .accent { color: var(--pink); }
+    .hero-tagline {
+      font-family: var(--sans);
+      font-size: 15px; line-height: 2;
+      color: var(--text-2);
+      margin-bottom: 8px;
+      max-width: 480px;
+    }
+    .hero-tagline strong { color: var(--text); font-weight: 500; }
+    .hero-actions { display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex; gap: 32px; margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+    .hero-stat-num {
+      font-family: var(--serif);
+      font-size: 28px; font-weight: 400;
+      color: var(--text); line-height: 1;
+    }
+    .hero-stat-num span { font-size: 14px; }
+    .hero-stat-label {
+      font-family: var(--sans);
+      font-size: 11px; color: var(--text-2);
+      margin-top: 6px; letter-spacing: 0.04em;
+    }
+    .hero-visual { position: relative; }
+    .hero-img-wrap {
+      width: 100%; aspect-ratio: 4/5;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--bg-warm);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: var(--sans); font-size: 13px; color: var(--text-3);
+      gap: 12px;
+    }
+    .hero-img-placeholder .icon { font-size: 48px; }
+    .hero-float-card {
+      position: absolute; bottom: -20px; left: -24px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      box-shadow: rgba(0,0,0,.08) 0 8px 24px;
+      min-width: 180px;
+    }
+    .hero-float-card .fc-label { font-family: var(--sans); font-size: 10px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .hero-float-card .fc-value { font-family: var(--serif); font-size: 22px; color: var(--text); }
+    .hero-float-card .fc-value span { font-size: 13px; color: var(--text-2); }
+
+    /* ─── ABOUT ─────────────────────────────────────────── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: start;
+      margin-top: 56px;
+    }
+    .about-text p {
+      font-family: var(--sans); font-size: 14px;
+      color: var(--text-2); line-height: 2;
+      margin-bottom: 16px;
+    }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+    .about-biz-list { list-style: none; margin-top: 24px; }
+    .about-biz-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .about-biz-item:first-child { border-top: 1px solid var(--border); }
+    .biz-icon { font-size: 18px; width: 32px; flex-shrink: 0; margin-top: 2px; }
+    .biz-name { font-family: var(--serif); font-size: 14px; color: var(--text); margin-bottom: 2px; }
+    .biz-desc { font-family: var(--sans); font-size: 12px; color: var(--text-2); line-height: 1.6; }
+    .biz-tag {
+      font-family: var(--sans); font-size: 10px; font-weight: 600;
+      background: var(--pink-soft); color: var(--pink);
+      padding: 2px 10px; border-radius: 50px; margin-left: auto; flex-shrink: 0;
+      align-self: center;
+    }
+
+    /* ─── NUMBERS ───────────────────────────────────────── */
+    .numbers-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--border);
+      border-radius: 16px; overflow: hidden;
+      margin-top: 56px;
+    }
+    .num-cell {
+      padding: 40px 32px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      transition: background 0.3s var(--ease);
+    }
+    .num-cell:nth-child(3n) { border-right: none; }
+    .num-cell:nth-child(n+4) { border-bottom: none; }
+    .num-cell:hover { background: var(--pink-soft); }
+    .num-category { font-family: var(--sans); font-size: 10px; font-weight: 600; color: var(--pink); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; }
+    .num-figure { font-family: var(--serif); font-size: 44px; font-weight: 400; line-height: 1; color: var(--text); margin-bottom: 8px; }
+    .num-figure sub { font-size: 18px; }
+    .num-desc { font-family: var(--sans); font-size: 12px; color: var(--text-2); line-height: 1.7; }
+
+    /* ─── WORKS ─────────────────────────────────────────── */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .work-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    }
+    .work-card:hover { transform: translateY(-6px); box-shadow: rgba(0,0,0,.09) 0 12px 32px; }
+    .work-thumb {
+      height: 170px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 44px;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .work-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      background: inherit; opacity: .3;
+      filter: blur(20px); z-index: 0;
+    }
+    .work-thumb span { position: relative; z-index: 1; filter: drop-shadow(0 2px 8px rgba(0,0,0,.12)); }
+    .thumb-rose    { background: linear-gradient(135deg, #fce4ec 0%, #f48fb1 100%); }
+    .thumb-peach   { background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 100%); }
+    .thumb-sage    { background: linear-gradient(135deg, #e8f5e9 0%, #a5d6a7 100%); }
+    .thumb-lavend  { background: linear-gradient(135deg, #f3e5f5 0%, #ce93d8 100%); }
+    .thumb-sky     { background: linear-gradient(135deg, #e3f2fd 0%, #90caf9 100%); }
+    .thumb-cream   { background: linear-gradient(135deg, #fafafa 0%, #e0c98a 100%); }
+    .work-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+    .work-type {
+      font-family: var(--sans); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--pink); margin-bottom: 8px;
+    }
+    .work-title {
+      font-family: var(--serif); font-size: 16px; color: var(--text);
+      line-height: 1.5; margin-bottom: 10px;
+    }
+    .work-desc {
+      font-family: var(--sans); font-size: 13px; color: var(--text-2);
+      line-height: 1.8; flex: 1; margin-bottom: 16px;
+    }
+    .work-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .tag {
+      background: var(--pink-soft); color: var(--pink);
+      font-family: var(--sans); font-size: 11px; font-weight: 600;
+      padding: 3px 12px; border-radius: 50px;
+    }
+
+    /* ─── TIMELINE (詳細実績) ────────────────────────────── */
+    .timeline { margin-top: 56px; position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 119px; top: 0; bottom: 0;
+      width: 1px; background: var(--border);
+    }
+    .tl-item {
+      display: grid; grid-template-columns: 120px 1fr;
+      gap: 32px; padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-year {
+      font-family: var(--serif); font-size: 14px; color: var(--text-2);
+      text-align: right; padding-top: 3px; position: relative;
+    }
+    .tl-year::after {
+      content: ''; position: absolute; right: -5px; top: 8px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--pink); border: 2px solid #fff;
+      box-shadow: 0 0 0 1px var(--pink);
+    }
+    .tl-content { padding-left: 24px; }
+    .tl-title { font-family: var(--serif); font-size: 16px; color: var(--text); margin-bottom: 6px; }
+    .tl-desc { font-family: var(--sans); font-size: 13px; color: var(--text-2); line-height: 1.8; }
+    .tl-kpi {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 10px;
+      background: var(--pink-soft); color: var(--pink);
+      font-family: var(--sans); font-size: 12px; font-weight: 600;
+      padding: 4px 14px; border-radius: 50px;
+    }
+
+    /* ─── SKILLS ────────────────────────────────────────── */
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-top: 56px;
+    }
+    .skill-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 24px;
+      transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+    }
+    .skill-card:hover {
+      border-color: var(--pink);
+      box-shadow: rgba(232,164,184,.15) 0 4px 16px;
+      transform: translateY(-3px);
+    }
+    .skill-icon { font-size: 26px; margin-bottom: 14px; }
+    .skill-name { font-family: var(--serif); font-size: 15px; color: var(--text); margin-bottom: 12px; }
+    .skill-list { list-style: none; }
+    .skill-list li {
+      font-family: var(--sans); font-size: 12px; color: var(--text-2);
+      line-height: 2; display: flex; align-items: center; gap: 6px;
+    }
+    .skill-list li::before { content: '—'; color: var(--pink); font-size: 10px; }
+
+    /* ─── PROGRESS BARS ─────────────────────────────────── */
+    .progress-section { margin-top: 56px; }
+    .progress-item { margin-bottom: 24px; }
+    .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .progress-label { font-family: var(--sans); font-size: 13px; color: var(--text); }
+    .progress-pct { font-family: var(--sans); font-size: 13px; color: var(--text-2); }
+    .progress-bar {
+      height: 3px; background: var(--bg-light);
+      border-radius: 2px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(to right, #ffc0cb, #e8a4b8);
+      border-radius: 2px;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 1.2s var(--ease);
+    }
+    .progress-fill.animate { transform: scaleX(1); }
+
+    /* ─── TESTIMONIAL / QUOTE ───────────────────────────── */
+    .quote-wrap {
+      margin-top: 56px;
+      padding: 48px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      position: relative;
+    }
+    .quote-wrap::before {
+      content: '"'; position: absolute; top: 24px; left: 40px;
+      font-family: var(--serif); font-size: 80px; color: var(--pink);
+      opacity: .3; line-height: 1;
+    }
+    .quote-text {
+      font-family: var(--serif); font-size: 18px; color: var(--text);
+      line-height: 2; text-align: center; position: relative; z-index: 1;
+      padding: 16px 40px 0;
+    }
+    .quote-author {
+      text-align: center; margin-top: 24px;
+      font-family: var(--sans); font-size: 13px; color: var(--text-2);
+    }
+
+    /* ─── CONTACT ────────────────────────────────────────── */
+    #contact {
+      text-align: center;
+      padding: 96px 0;
+      background: var(--bg-warm);
+    }
+    .contact-inner { max-width: 640px; margin: 0 auto; padding: 0 40px; }
+    .contact-heading {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.5vw, 40px);
+      font-weight: 400; letter-spacing: 0.12em;
+      color: var(--text); margin-bottom: 16px;
+    }
+    .contact-desc {
+      font-family: var(--sans); font-size: 14px;
+      color: var(--text-2); line-height: 1.9;
+      margin-bottom: 40px;
+    }
+    .contact-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─────────────────────────────────────────── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+    }
+    .footer-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo { font-family: var(--serif); font-size: 14px; letter-spacing: 0.15em; color: var(--text-2); }
+    .footer-copy { font-family: var(--sans); font-size: 12px; color: var(--text-3); }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-family: var(--sans); font-size: 12px; color: var(--text-3); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--pink); }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner, .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { order: -1; }
+      .hero-img-wrap { aspect-ratio: 3/2; }
+      .hero-float-card { display: none; }
+      .numbers-grid, .works-grid { grid-template-columns: repeat(2, 1fr); }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 20px; }
+      .numbers-grid, .works-grid, .skills-grid { grid-template-columns: 1fr; }
+      .timeline::before { left: 0; }
+      .tl-item { grid-template-columns: 1fr; gap: 8px; }
+      .tl-year { text-align: left; }
+      .tl-year::after { display: none; }
+      .tl-content { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">TAKAHIRO HONDA</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#results">実績</a></li>
+      <li><a href="#works">AI開発</a></li>
+      <li><a href="#skills">スキル</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">お問い合わせ</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════ HERO ══════════════════════════════ -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge reveal"><span class="dot"></span> 経営者 × AI Developer</div>
+      <h1 class="hero-name reveal">
+        <span class="en">TAKAHIRO HONDA</span>
+        本田<br><span class="accent">貴裕</span>
+      </h1>
+      <p class="hero-tagline reveal">
+        5事業を経営しながら、<strong>Claude Code を活用した<br>AI Executive Advisor System</strong> を独自構築。
+      </p>
+      <p class="hero-tagline reveal">
+        経営 × AI の実践者として、<br>同じ課題を持つ経営者を支援します。
+      </p>
+      <div class="hero-actions reveal">
+        <a href="#works" class="btn btn-primary">AI開発の実績を見る →</a>
+        <a href="#contact" class="btn btn-ghost">お問い合わせ</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div>
+          <div class="hero-stat-num">5<span>事業</span></div>
+          <div class="hero-stat-label">経営中の事業数</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">55<span>機能</span></div>
+          <div class="hero-stat-label">AI Agent/Skill</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">700<span>万+</span></div>
+          <div class="hero-stat-label">月商達成（FC）</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-img-wrap">
+        <img src="image/ChatGPT Image 2026年6月4日 09_18_11.png" alt="本田貴裕"
+          onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+        <div class="hero-img-placeholder" style="display:none">
+          <div class="icon">👤</div>
+          <div>本田 貴裕</div>
+        </div>
+      </div>
+      <div class="hero-float-card">
+        <div class="fc-label">AI System</div>
+        <div class="fc-value">18 <span>Agents</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ ABOUT ═════════════════════════════ -->
+<section id="about" class="section section-bg">
+  <div class="container">
+    <p class="eyebrow left reveal">About</p>
+    <h2 class="heading reveal">5事業を経営する<br>AI実践家</h2>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          大阪府門真市を拠点に、<strong>ベーカリーFC・ベーグル新規事業・プログラミング教育・地域活性化・経営コンサルティング</strong>の5事業を並行して経営しています。
+        </p>
+        <p>
+          2024年よりClaude Codeを活用したAI活用を本格化。経営判断・財務分析・コンテンツ制作・店舗運営のすべてをAIで支援する<strong>AI Executive Advisor System</strong>を独自構築しました。
+        </p>
+        <p>
+          「経営者がAIを使いこなす」のではなく、「AIが経営者の分身として動く」仕組みを作ることで、少人数でも大企業と戦える経営体制を実現しています。
+        </p>
+        <a href="#contact" class="btn btn-ghost" style="margin-top:24px">相談・顧問依頼はこちら →</a>
+      </div>
+      <div class="reveal">
+        <ul class="about-biz-list">
+          <li class="about-biz-item">
+            <div class="biz-icon">🥐</div>
+            <div>
+              <div class="biz-name">ベーカリー FC（SUMOMOBAKERY）</div>
+              <div class="biz-desc">FC加盟店として月商700万円達成。FLコスト改善・スタッフ育成をAIで支援。</div>
+            </div>
+            <div class="biz-tag">既存・拡大</div>
+          </li>
+          <li class="about-biz-item">
+            <div class="biz-icon">🥯</div>
+            <div>
+              <div class="biz-name">ベーグル新規事業</div>
+              <div class="biz-desc">テストマーケから事業化へ。移動販売で月商100万円達成。</div>
+            </div>
+            <div class="biz-tag">テストマーケ</div>
+          </li>
+          <li class="about-biz-item">
+            <div class="biz-icon">💻</div>
+            <div>
+              <div class="biz-name">プログラミング教育事業</div>
+              <div class="biz-desc">体験会集客100名。入会転換率・退会率をKPI管理。</div>
+            </div>
+            <div class="biz-tag">既存・拡大</div>
+          </li>
+          <li class="about-biz-item">
+            <div class="biz-icon">🎪</div>
+            <div>
+              <div class="biz-name">地域活性化・イベント</div>
+              <div class="biz-desc">門真まつり・PTA活動・スマイルハートなど地域イベントを主導。</div>
+            </div>
+            <div class="biz-tag">既存</div>
+          </li>
+          <li class="about-biz-item">
+            <div class="biz-icon">📊</div>
+            <div>
+              <div class="biz-name">経営コンサルティング</div>
+              <div class="biz-desc">FC加盟店・中小企業の顧問として事業診断・改善提案を提供。</div>
+            </div>
+            <div class="biz-tag">既存</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ RESULTS ═══════════════════════════ -->
+<section id="results" class="section">
+  <div class="container">
+    <p class="eyebrow reveal">Results & Achievements</p>
+    <h2 class="heading reveal">数字で証明する実績</h2>
+    <p class="lead reveal">5事業にわたる経営とAI開発の成果</p>
+    <div class="numbers-grid">
+      <div class="num-cell reveal reveal-delay-1">
+        <div class="num-category">ベーカリー FC</div>
+        <div class="num-figure">700<sub>万円</sub></div>
+        <div class="num-desc">SUMOMOBAKERY 月商達成<br>FLコスト改善・スタッフ育成</div>
+      </div>
+      <div class="num-cell reveal reveal-delay-2">
+        <div class="num-category">WEB 事業</div>
+        <div class="num-figure">500<sub>万円</sub></div>
+        <div class="num-desc">SEOアフィリエイト 月商達成<br>コンテンツ×SEO戦略</div>
+      </div>
+      <div class="num-cell reveal reveal-delay-3">
+        <div class="num-category">WEB 広告運用</div>
+        <div class="num-figure">1,000<sub>円</sub></div>
+        <div class="num-desc">CPA 達成<br>累計400名以上集客</div>
+      </div>
+      <div class="num-cell reveal reveal-delay-1">
+        <div class="num-category">AI システム</div>
+        <div class="num-figure">55<sub>機能</sub></div>
+        <div class="num-desc">スキル31 / コマンド6 / Agent18<br>Claude Code で独自構築</div>
+      </div>
+      <div class="num-cell reveal reveal-delay-2">
+        <div class="num-category">移動販売</div>
+        <div class="num-figure">100<sub>万円</sub></div>
+        <div class="num-desc">チュロスキッチンカー<br>月商達成</div>
+      </div>
+      <div class="num-cell reveal reveal-delay-3">
+        <div class="num-category">教育事業</div>
+        <div class="num-figure">100<sub>名</sub></div>
+        <div class="num-desc">プログラミング教室<br>体験会集客</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ AI WORKS ══════════════════════════ -->
+<section id="works" class="section section-bg">
+  <div class="container">
+    <p class="eyebrow left reveal">AI Development Works</p>
+    <h2 class="heading reveal">AI開発の実績</h2>
+    <p class="lead reveal">Claude Code を活用して構築した、経営を支援する AI システム群</p>
+    <div class="works-grid">
+
+      <div class="work-card reveal reveal-delay-1">
+        <div class="work-thumb thumb-rose"><span>🤖</span></div>
+        <div class="work-body">
+          <div class="work-type">Multi-Agent System</div>
+          <div class="work-title">5-Agent Executive Advisor System</div>
+          <div class="work-desc">CEO-Agentを頂点とする8体の専門AIが、経営判断・財務・集客・コンテンツ・店舗運営を自動委譲。複合的な経営課題を複数のAIが連携して解決。</div>
+          <div class="work-tags"><span class="tag">Claude Code</span><span class="tag">Multi-Agent</span><span class="tag">SubAgent</span></div>
+        </div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-2">
+        <div class="work-thumb thumb-peach"><span>📊</span></div>
+        <div class="work-body">
+          <div class="work-type">Finance</div>
+          <div class="work-title">財務シミュレーター & 損益診断</div>
+          <div class="work-desc">FLコスト・1人時売上高・損益分岐点を自動計算。悲観/中間/楽観の3シナリオで試算。FC店舗の経営判断を数字でサポート。</div>
+          <div class="work-tags"><span class="tag">financial-simulator</span><span class="tag">business-diagnosis</span></div>
+        </div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-3">
+        <div class="work-thumb thumb-sage"><span>✍️</span></div>
+        <div class="work-body">
+          <div class="work-type">Content Automation</div>
+          <div class="work-title">SEO記事制作 11ステップ自動化</div>
+          <div class="work-desc">キーワード調査から公開前チェックまで11工程を自動実行。1万字記事を品質担保で量産。ベーカリー集客記事などで実際に運用中。</div>
+          <div class="work-tags"><span class="tag">11-Step Pipeline</span><span class="tag">seo-blog-writer</span></div>
+        </div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-1">
+        <div class="work-thumb thumb-lavend"><span>📁</span></div>
+        <div class="work-body">
+          <div class="work-type">Document Analysis</div>
+          <div class="work-title">経営補佐ドキュメント分析パイプライン</div>
+          <div class="work-desc">資料を入力すると4段階で要約→論点整理→改善提案→次アクションまで自動出力。収支表・企画書・会議録など多様な文書に対応。</div>
+          <div class="work-tags"><span class="tag">4-Stage Pipeline</span><span class="tag">executive-document</span></div>
+        </div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-2">
+        <div class="work-thumb thumb-sky"><span>🏪</span></div>
+        <div class="work-body">
+          <div class="work-type">FC Operations</div>
+          <div class="work-title">FC店舗運営 AI診断システム</div>
+          <div class="work-desc">QSC・シフト最適化・廃棄率管理をAIが診断。平日人件費率71%→45%の改善提案を実現。FC加盟店の顧問支援に活用中。</div>
+          <div class="work-tags"><span class="tag">operations-agent</span><span class="tag">franchise-reviewer</span></div>
+        </div>
+      </div>
+
+      <div class="work-card reveal reveal-delay-3">
+        <div class="work-thumb thumb-cream"><span>📄</span></div>
+        <div class="work-body">
+          <div class="work-type">PDF Generation</div>
+          <div class="work-title">AI開発ガイド PDF 自動生成</div>
+          <div class="work-desc">31スキル・6コマンド・18エージェントを日本語PDFに自動整形。reportlab＋MSGothicフォントで品質の高いPDFを自動生成。</div>
+          <div class="work-tags"><span class="tag">Python</span><span class="tag">reportlab</span><span class="tag">PDF</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ TIMELINE ══════════════════════════ -->
+<section id="timeline" class="section">
+  <div class="container">
+    <p class="eyebrow left reveal">History</p>
+    <h2 class="heading reveal">経営 × AI の歩み</h2>
+    <div class="timeline">
+      <div class="tl-item reveal">
+        <div class="tl-year">2019</div>
+        <div class="tl-content">
+          <div class="tl-title">ベーカリーFC加盟・WEB事業開始</div>
+          <div class="tl-desc">SUMOMOBAKERYのFC加盟店として開業。同時にSEOアフィリエイト事業を開始。</div>
+          <div class="tl-kpi">📈 月商700万円達成</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2021</div>
+        <div class="tl-content">
+          <div class="tl-title">移動販売・教育事業に参入</div>
+          <div class="tl-desc">チュロスキッチンカーで移動販売をスタート。プログラミング教室の運営も開始。</div>
+          <div class="tl-kpi">🚐 移動販売 月商100万円</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2023</div>
+        <div class="tl-content">
+          <div class="tl-title">地域活動・PTA会長・ベーグル事業</div>
+          <div class="tl-desc">PTA会長として地域活動をリード。門真まつり・スマイルハートなどのイベント主導。ベーグル事業のテストマーケを開始。</div>
+          <div class="tl-kpi">🏘️ 集客イベント継続実施</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2024</div>
+        <div class="tl-content">
+          <div class="tl-title">Claude Code 活用・AI Executive Advisor System 構築開始</div>
+          <div class="tl-desc">Claude Codeを本格導入。経営判断・財務・集客・コンテンツ・店舗運営の全領域をAIで支援するシステムを構築開始。</div>
+          <div class="tl-kpi">🤖 55機能（スキル31/コマンド6/Agent18）</div>
+        </div>
+      </div>
+      <div class="tl-item reveal">
+        <div class="tl-year">2025〜</div>
+        <div class="tl-content">
+          <div class="tl-title">AI経営参謀システム 実運用・外部展開</div>
+          <div class="tl-desc">自社5事業での実運用を経て、FC加盟店・中小企業への顧問サービスとして外部展開中。経営×AIの実践知を広めています。</div>
+          <div class="tl-kpi">🚀 顧問・講演・コンサル受付中</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ SKILLS ════════════════════════════ -->
+<section id="skills" class="section section-bg-light">
+  <div class="container">
+    <p class="eyebrow reveal">Skills & Domains</p>
+    <h2 class="heading reveal" style="text-align:center">専門領域</h2>
+
+    <div class="skills-grid">
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-icon">🤖</div>
+        <div class="skill-name">AI / Claude Code</div>
+        <ul class="skill-list"><li>SubAgent 設計・構築</li><li>スキル・コマンド開発</li><li>マルチエージェント連携</li><li>プロンプト最適化</li></ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-icon">💹</div>
+        <div class="skill-name">経営 / 財務</div>
+        <ul class="skill-list"><li>損益分岐点分析</li><li>FLコスト改善</li><li>KPI 設計・管理</li><li>投資判断フレーム</li></ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-3">
+        <div class="skill-icon">📣</div>
+        <div class="skill-name">集客 / マーケ</div>
+        <ul class="skill-list"><li>SEO コンテンツ設計</li><li>LINE・SNS 販促</li><li>Web 広告運用（CPA管理）</li><li>マーケティングファネル</li></ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-4">
+        <div class="skill-icon">🏪</div>
+        <div class="skill-name">店舗 / FC 運営</div>
+        <ul class="skill-list"><li>シフト最適化</li><li>マニュアル整備</li><li>スタッフ育成体系</li><li>FC 店舗診断</li></ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-1">
+        <div class="skill-icon">✍️</div>
+        <div class="skill-name">コンテンツ制作</div>
+        <ul class="skill-list"><li>SEO 記事（1万字）</li><li>LP・チラシ原稿</li><li>LINE 配信設計</li><li>SNS 投稿文</li></ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-2">
+        <div class="skill-icon">🐍</div>
+        <div class="skill-name">Python</div>
+        <ul class="skill-list"><li>PDF 自動生成（reportlab）</li><li>データ処理・集計</li><li>業務自動化スクリプト</li><li>HTTP サーバー</li></ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-3">
+        <div class="skill-icon">🎪</div>
+        <div class="skill-name">PTA / 地域活動</div>
+        <ul class="skill-list"><li>イベント企画・運営</li><li>協賛営業</li><li>組織運営・人材配置</li><li>企画書・挨拶文作成</li></ul>
+      </div>
+      <div class="skill-card reveal reveal-delay-4">
+        <div class="skill-icon">🤝</div>
+        <div class="skill-name">経営コンサル</div>
+        <ul class="skill-list"><li>事業診断</li><li>改善提案（定量）</li><li>顧問先支援</li><li>新規事業評価</li></ul>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <h3 style="font-family:var(--serif);font-size:18px;margin-bottom:32px;text-align:center;" class="reveal">AI ツール活用レベル</h3>
+      <div style="max-width:600px;margin:0 auto;">
+        <div class="progress-item reveal"><div class="progress-header"><span class="progress-label">Claude Code / SubAgent</span><span class="progress-pct">95%</span></div><div class="progress-bar"><div class="progress-fill" style="--w:0.95"></div></div></div>
+        <div class="progress-item reveal"><div class="progress-header"><span class="progress-label">プロンプトエンジニアリング</span><span class="progress-pct">90%</span></div><div class="progress-bar"><div class="progress-fill" style="--w:0.90"></div></div></div>
+        <div class="progress-item reveal"><div class="progress-header"><span class="progress-label">Python / 自動化</span><span class="progress-pct">75%</span></div><div class="progress-bar"><div class="progress-fill" style="--w:0.75"></div></div></div>
+        <div class="progress-item reveal"><div class="progress-header"><span class="progress-label">HTML / CSS / Web制作</span><span class="progress-pct">70%</span></div><div class="progress-bar"><div class="progress-fill" style="--w:0.70"></div></div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ QUOTE ════════════════════════════ -->
+<section class="section">
+  <div class="container">
+    <div class="quote-wrap reveal">
+      <p class="quote-text">
+        「経営者がAIを使いこなす」のではなく、<br>「AIが経営者の分身として動く」仕組みを作る。<br>
+        それが、少人数でも大企業と戦える唯一の方法だと考えています。
+      </p>
+      <p class="quote-author">— 本田 貴裕</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ CONTACT ═══════════════════════════ -->
+<section id="contact">
+  <div class="contact-inner">
+    <p class="eyebrow reveal" style="justify-content:center;">Contact</p>
+    <div class="section-divider" style="width:40px;height:2px;background:var(--pink);border-radius:2px;margin:0 auto 20px;"></div>
+    <h2 class="contact-heading reveal">お問い合わせ</h2>
+    <p class="contact-desc reveal">
+      AI活用による経営改善・顧問契約・<br>
+      講演・取材のご依頼はお気軽にどうぞ。
+    </p>
+    <div class="contact-btns reveal">
+      <a href="mailto:info@example.com" class="btn btn-primary">メールで相談する</a>
+      <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn btn-ghost">Instagram を見る</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ FOOTER ════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">TAKAHIRO HONDA</div>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#works">Works</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 Honda Takahiro. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // ── Nav shadow on scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+
+  // ── Reveal on scroll (IntersectionObserver)
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => revealObserver.observe(el));
+
+  // ── Progress bars animate when visible
+  const progressFills = document.querySelectorAll('.progress-fill');
+  const progObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const w = getComputedStyle(el).getPropertyValue('--w') || '1';
+        el.style.transform = `scaleX(${w})`;
+        el.classList.add('animate');
+        progObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  progressFills.forEach(el => progObserver.observe(el));
+</script>
+</body>
+</html>
