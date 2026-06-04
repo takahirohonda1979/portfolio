@@ -1373,6 +1373,16 @@
 
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
+  // ページロード時に既に画面内にある要素を即時表示
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.show)').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        el.classList.add('show');
+      }
+    });
+  }, 100);
+
   // Progress bars — animate on scroll
   const barObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
