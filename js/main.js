@@ -14,12 +14,13 @@
    マジックナンバーを定数化して可読性・保守性を向上
 ──────────────────────────────────────────────────────────────────── */
 const CONFIG = Object.freeze({
-  NAV_SCROLL_THRESHOLD: 10,       // px: ナビにシャドウが付くスクロール量
-  REVEAL_THRESHOLD: 0.05,         // IntersectionObserver しきい値
-  SKILL_BAR_THRESHOLD: 0.3,       // スキルバー発火しきい値
-  SKILL_BAR_DELAY_MS: 200,        // スキルバーアニメーション開始遅延
-  WIDTH_MIN: 0,                   // data-width 許容最小値
-  WIDTH_MAX: 100,                 // data-width 許容最大値
+  NAV_SCROLL_THRESHOLD: 10,         // px: ナビにシャドウが付くスクロール量
+  REVEAL_THRESHOLD: 0.05,           // IntersectionObserver しきい値
+  REVEAL_ROOT_MARGIN: '0px 0px -40px 0px', // 下端40px手前で発火（早すぎる表示を防ぐ）
+  SKILL_BAR_THRESHOLD: 0.3,         // スキルバー発火しきい値
+  SKILL_BAR_DELAY_MS: 200,          // スキルバーアニメーション開始遅延
+  WIDTH_MIN: 0,                     // data-width 許容最小値
+  WIDTH_MAX: 100,                   // data-width 許容最大値
 });
 
 /* ─── ユーティリティ ────────────────────────────────────────────────
@@ -106,7 +107,7 @@ function initReveal() {
     });
   }, {
     threshold: CONFIG.REVEAL_THRESHOLD,
-    rootMargin: '0px 0px -40px 0px',
+    rootMargin: CONFIG.REVEAL_ROOT_MARGIN,
   });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
