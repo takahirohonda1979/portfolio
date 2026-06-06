@@ -9,6 +9,7 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ja_JP">
   <title>本田 貴裕 | 経営者 × AI Developer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥐</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -845,9 +846,8 @@
       <div class="hero-img-wrap reveal reveal-delay-2">
         <div class="hero-img-frame">
           <img
-            src="image/ChatGPT Image 2026年6月4日 09_18_11.png"
-            alt="本田 貴裕"
-            onerror="this.style.background='linear-gradient(135deg,#fff0f3 0%,#faf9f5 100%)';this.style.height='520px';this.style.display='flex';this.parentNode.style.background='linear-gradient(135deg,#fff0f3,#faf9f5)';this.parentNode.style.height='520px';this.parentNode.style.borderRadius='16px';"
+            src="assets/images/achievement.png"
+            alt="本田 貴裕 — 実績サマリー：WEB月商500万円・ベーカリー月商700万円・AI 55機能構築"
           >
           <div class="hero-img-tag">
             <div class="hero-img-tag-label">AI System</div>
@@ -1308,12 +1308,12 @@
         そんなご相談をお待ちしています。
       </p>
       <div class="contact-links reveal reveal-delay-2">
-        <a href="mailto:contact@honda-takahiro.com" class="contact-link-card">
+        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="contact-link-card">
           <div class="contact-link-icon">✉️</div>
-          <div class="contact-link-type">Email</div>
-          <div class="contact-link-value">メールで相談</div>
+          <div class="contact-link-type">DM / Contact</div>
+          <div class="contact-link-value">DMで相談する</div>
         </a>
-        <a href="https://instagram.com/" target="_blank" rel="noopener" class="contact-link-card">
+        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="contact-link-card">
           <div class="contact-link-icon">📸</div>
           <div class="contact-link-type">Instagram</div>
           <div class="contact-link-value">フォローする</div>
@@ -1325,7 +1325,7 @@
         </a>
       </div>
       <div class="contact-cta-row reveal reveal-delay-3">
-        <a href="mailto:contact@honda-takahiro.com" class="btn btn-primary" style="font-size:0.95rem; padding:14px 36px;">顧問・AI導入を相談する</a>
+        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.95rem; padding:14px 36px;">顧問・AI導入を相談する</a>
         <a href="#projects" class="btn btn-ghost" style="font-size:0.95rem; padding:14px 36px;">プロジェクトを見る</a>
       </div>
     </div>
@@ -1342,7 +1342,7 @@
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
     </div>
-    <p>© 2025 <strong>本田 貴裕 (Takahiro Honda)</strong> — 経営者 × AI Developer. Osaka, Kadoma.</p>
+    <p>© 2026 <strong>本田 貴裕 (Takahiro Honda)</strong> — 経営者 × AI Developer. Osaka, Kadoma.</p>
   </div>
 </footer>
 
@@ -1358,9 +1358,18 @@
   const hamburger = document.getElementById('hamburger');
   const mobileNav = document.getElementById('mobileNav');
   const mobileClose = document.getElementById('mobileClose');
-  hamburger.addEventListener('click', () => mobileNav.classList.add('open'));
-  mobileClose.addEventListener('click', () => mobileNav.classList.remove('open'));
-  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileNav.classList.remove('open')));
+  hamburger.addEventListener('click', () => {
+    mobileNav.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+  });
+  mobileClose.addEventListener('click', () => {
+    mobileNav.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  });
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileNav.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }));
 
   // JS が動作していることを body に伝え、アニメーションCSSを有効化
   document.body.classList.add('js-ready');
