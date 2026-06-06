@@ -17,7 +17,8 @@
              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
              font-src https://fonts.gstatic.com;
              img-src 'self' data:;
-             connect-src 'none';" />
+             connect-src 'self';
+             frame-ancestors 'none';" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- P-3: display=swap で FOUT を防止 -->
@@ -177,7 +178,11 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
-    .nav-cta { margin-left: 16px; }
+    .nav-cta { margin-left: 16px; padding: 9px 22px; font-size: 0.8rem; }
+    /* ユーティリティ: インライン style を排除するためのヘルパークラス */
+    .u-mb-sm  { margin-bottom: 20px; }
+    .u-center { text-align: center; display: block; margin-bottom: 16px; }
+    .btn-lg   { font-size: 0.95rem; padding: 14px 36px; }
     .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0; }
     .nav-hamburger span { width: 22px; height: 1.5px; background: var(--text); transition: all 0.3s; display: block; }
 
@@ -822,7 +827,7 @@
         <li><a href="#results">Results</a></li>
         <li><a href="#timeline">Timeline</a></li>
       </ul>
-      <a href="#contact" class="btn btn-primary nav-cta" style="padding:9px 22px; font-size:0.8rem;">お問い合わせ</a>
+      <a href="#contact" class="btn btn-primary nav-cta">お問い合わせ</a>
       <button class="nav-hamburger" id="hamburger" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileNav">
         <span></span><span></span><span></span>
       </button>
@@ -912,7 +917,7 @@
         </div>
       </div>
       <div class="story-right">
-        <div class="section-label reveal" style="margin-bottom:20px;">5事業 ポートフォリオ</div>
+        <div class="section-label reveal u-mb-sm">5事業 ポートフォリオ</div>
         <div class="story-businesses">
           <div class="story-biz-item reveal reveal-delay-1">
             <div class="story-biz-icon" aria-hidden="true">🥐</div>
@@ -1320,7 +1325,7 @@
 <section id="contact" class="section">
   <div class="container">
     <div class="contact-inner">
-      <div class="section-label reveal" style="text-align:center; display:block; margin-bottom:16px;">Contact / CTA</div>
+      <div class="section-label reveal u-center">Contact / CTA</div>
       <h2 class="contact-title reveal">
         経営 × AI で、<br>あなたの事業を加速させましょう
       </h2>
@@ -1340,15 +1345,15 @@
           <div class="contact-link-type">Instagram</div>
           <div class="contact-link-value">フォローする</div>
         </a>
-        <a href="#contact" class="contact-link-card">
+        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="contact-link-card">
           <div class="contact-link-icon" aria-hidden="true">🤝</div>
           <div class="contact-link-type">顧問依頼</div>
           <div class="contact-link-value">詳しく聞く</div>
         </a>
       </div>
       <div class="contact-cta-row reveal reveal-delay-3">
-        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.95rem; padding:14px 36px;">顧問・AI導入を相談する</a>
-        <a href="#projects" class="btn btn-ghost" style="font-size:0.95rem; padding:14px 36px;">プロジェクトを見る</a>
+        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">顧問・AI導入を相談する</a>
+        <a href="#projects" class="btn btn-ghost btn-lg">プロジェクトを見る</a>
       </div>
     </div>
   </div>
