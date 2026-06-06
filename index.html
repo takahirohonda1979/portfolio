@@ -10,9 +10,19 @@
   <meta property="og:locale" content="ja_JP">
   <title>本田 貴裕 | 経営者 × AI Developer</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥐</text></svg>" />
+  <!-- S-3: Content-Security-Policy — インラインスクリプト・外部リソースを制限 -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self';
+             script-src 'self';
+             style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+             font-src https://fonts.gstatic.com;
+             img-src 'self' data:;
+             connect-src 'self';
+             frame-ancestors 'none';" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- P-3: display=swap で FOUT を防止 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     /* ─── RESET & TOKENS ──────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,8 +35,8 @@
       --bg-warm:     #faf9f5;
       --bg-off:      #fafafa;
       --text:        #333333;
-      --text-2:      #888888;
-      --text-3:      #bbbbbb;
+      --text-2:      #767676;  /* WCAG AA準拠: contrast 4.54:1 on #fff */
+      --text-3:      #949494;  /* WCAG AA準拠（大テキスト）: contrast 3.03:1 on #fff */
       --border:      #eeeeee;
       --serif:       'Noto Serif JP', 'Hiragino Mincho ProN', serif;
       --sans:        'Noto Sans JP', 'Hiragino Kaku Gothic Pro', sans-serif;
@@ -168,8 +178,12 @@
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text); }
-    .nav-cta { margin-left: 16px; }
-    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .nav-cta { margin-left: 16px; padding: 9px 22px; font-size: 0.8rem; }
+    /* ユーティリティ: インライン style を排除するためのヘルパークラス */
+    .u-mb-sm  { margin-bottom: 20px; }
+    .u-center { text-align: center; display: block; margin-bottom: 16px; }
+    .btn-lg   { font-size: 0.95rem; padding: 14px 36px; }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0; }
     .nav-hamburger span { width: 22px; height: 1.5px; background: var(--text); transition: all 0.3s; display: block; }
 
     /* ─── HERO ────────────────────────────────────────────────── */
@@ -780,14 +794,18 @@
       font-size: 1.4rem;
       cursor: pointer;
       color: var(--text-2);
+      background: none;
+      border: none;
+      padding: 0;
+      line-height: 1;
     }
   </style>
 </head>
 <body>
 
 <!-- ─── MOBILE NAV ─────────────────────────────────────────── -->
-<nav class="mobile-nav" id="mobileNav">
-  <span class="mobile-nav-close" id="mobileClose">✕</span>
+<nav class="mobile-nav" id="mobileNav" aria-label="モバイルナビゲーション" aria-hidden="true">
+  <button class="mobile-nav-close" id="mobileClose" type="button" aria-label="メニューを閉じる">✕</button>
   <a href="#about">About</a>
   <a href="#projects">AI Projects</a>
   <a href="#business">Business</a>
@@ -797,7 +815,7 @@
 </nav>
 
 <!-- ─── NAV ───────────────────────────────────────────────────── -->
-<nav class="nav" id="mainNav">
+<nav class="nav" id="mainNav" aria-label="メインナビゲーション">
   <div class="container">
     <div class="nav-inner">
       <a href="#" class="nav-logo">Honda <span>T.</span></a>
@@ -809,10 +827,10 @@
         <li><a href="#results">Results</a></li>
         <li><a href="#timeline">Timeline</a></li>
       </ul>
-      <a href="#contact" class="btn btn-primary nav-cta" style="padding:9px 22px; font-size:0.8rem;">お問い合わせ</a>
-      <div class="nav-hamburger" id="hamburger">
+      <a href="#contact" class="btn btn-primary nav-cta">お問い合わせ</a>
+      <button class="nav-hamburger" id="hamburger" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileNav">
         <span></span><span></span><span></span>
-      </div>
+      </button>
     </div>
   </div>
 </nav>
@@ -823,20 +841,20 @@
     <div class="hero-grid">
       <div class="hero-content">
         <div class="hero-eyebrow reveal">
-          <div class="hero-eyebrow-dot"></div>
+          <div class="hero-eyebrow-dot" aria-hidden="true"></div>
           <span class="hero-eyebrow-text">経営者 × AI Developer</span>
         </div>
-        <div class="hero-name reveal reveal-delay-1">本田 貴裕</div>
-        <div class="hero-name-en reveal reveal-delay-1">Takahiro Honda — Osaka, Kadoma</div>
+        <h1 class="hero-name reveal reveal-delay-1">本田 貴裕</h1>
+        <p class="hero-name-en reveal reveal-delay-1">Takahiro Honda — Osaka, Kadoma</p>
         <p class="hero-copy reveal reveal-delay-2">
           5事業を経営しながら、Claude Codeで独自の<br>
           AI Executive Advisor Systemを構築。<br>
           経営とAIを掛け算した新しい可能性を切り拓く。
         </p>
         <div class="hero-stats reveal reveal-delay-3">
-          <div class="hero-stat-badge"><span class="stat-dot"></span>5事業 経営中</div>
-          <div class="hero-stat-badge"><span class="stat-dot"></span>55機能 構築済み</div>
-          <div class="hero-stat-badge"><span class="stat-dot"></span>月商 700万円</div>
+          <div class="hero-stat-badge"><span class="stat-dot" aria-hidden="true"></span>5事業 経営中</div>
+          <div class="hero-stat-badge"><span class="stat-dot" aria-hidden="true"></span>55機能 構築済み</div>
+          <div class="hero-stat-badge"><span class="stat-dot" aria-hidden="true"></span>月商 700万円</div>
         </div>
         <div class="hero-btns reveal reveal-delay-4">
           <a href="#projects" class="btn btn-primary">AI Projects を見る</a>
@@ -845,10 +863,19 @@
       </div>
       <div class="hero-img-wrap reveal reveal-delay-2">
         <div class="hero-img-frame">
-          <img
-            src="assets/images/achievement.png"
-            alt="本田 貴裕 — 実績サマリー：WEB月商500万円・ベーカリー月商700万円・AI 55機能構築"
-          >
+          <picture>
+            <source srcset="assets/images/achievement.webp" type="image/webp" />
+            <img
+              src="assets/images/achievement.png"
+              alt="本田 貴裕 — 実績サマリー：WEB月商500万円・ベーカリー月商700万円・AI 55機能構築"
+              width="480"
+              height="520"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              onerror="this.parentElement.style.background='linear-gradient(135deg,#fff0f3,#faf9f5)';this.style.display='none';"
+            />
+          </picture>
           <div class="hero-img-tag">
             <div class="hero-img-tag-label">AI System</div>
             <div class="hero-img-tag-value">55機能 構築</div>
@@ -890,38 +917,38 @@
         </div>
       </div>
       <div class="story-right">
-        <div class="section-label reveal" style="margin-bottom:20px;">5事業 ポートフォリオ</div>
+        <div class="section-label reveal u-mb-sm">5事業 ポートフォリオ</div>
         <div class="story-businesses">
           <div class="story-biz-item reveal reveal-delay-1">
-            <div class="story-biz-icon">🥐</div>
+            <div class="story-biz-icon" aria-hidden="true">🥐</div>
             <div>
               <div class="story-biz-name">ベーカリー FC</div>
               <div class="story-biz-kpi">KPI: FLコスト・1人時売上高</div>
             </div>
           </div>
           <div class="story-biz-item reveal reveal-delay-2">
-            <div class="story-biz-icon">🥯</div>
+            <div class="story-biz-icon" aria-hidden="true">🥯</div>
             <div>
               <div class="story-biz-name">ベーグル 新規事業</div>
               <div class="story-biz-kpi">KPI: 損益分岐点・リピート率</div>
             </div>
           </div>
           <div class="story-biz-item reveal reveal-delay-3">
-            <div class="story-biz-icon">💻</div>
+            <div class="story-biz-icon" aria-hidden="true">💻</div>
             <div>
               <div class="story-biz-name">プログラミング教育</div>
               <div class="story-biz-kpi">KPI: 入会転換率・退会率</div>
             </div>
           </div>
           <div class="story-biz-item reveal reveal-delay-4">
-            <div class="story-biz-icon">🌸</div>
+            <div class="story-biz-icon" aria-hidden="true">🌸</div>
             <div>
               <div class="story-biz-name">地域活性化・イベント</div>
               <div class="story-biz-kpi">KPI: 集客数・協賛額</div>
             </div>
           </div>
           <div class="story-biz-item reveal reveal-delay-5">
-            <div class="story-biz-icon">📊</div>
+            <div class="story-biz-icon" aria-hidden="true">📊</div>
             <div>
               <div class="story-biz-name">経営コンサルティング</div>
               <div class="story-biz-kpi">KPI: 顧問先数・時間単価</div>
@@ -1054,31 +1081,31 @@
     </div>
     <div class="biz-grid">
       <div class="biz-card reveal reveal-delay-1">
-        <div class="biz-card-icon">🥐</div>
+        <div class="biz-card-icon" aria-hidden="true">🥐</div>
         <div class="biz-card-phase">既存・拡大</div>
         <div class="biz-card-name">ベーカリー FC</div>
         <div class="biz-card-kpi">FLコスト管理<br>1人時売上高最大化</div>
       </div>
       <div class="biz-card reveal reveal-delay-2">
-        <div class="biz-card-icon">🥯</div>
+        <div class="biz-card-icon" aria-hidden="true">🥯</div>
         <div class="biz-card-phase">テストマーケ</div>
         <div class="biz-card-name">ベーグル 新規事業</div>
         <div class="biz-card-kpi">損益分岐点検証<br>リピート率向上</div>
       </div>
       <div class="biz-card reveal reveal-delay-3">
-        <div class="biz-card-icon">💻</div>
+        <div class="biz-card-icon" aria-hidden="true">💻</div>
         <div class="biz-card-phase">既存・拡大</div>
         <div class="biz-card-name">プログラミング教育</div>
         <div class="biz-card-kpi">入会転換率最大化<br>退会率最小化</div>
       </div>
       <div class="biz-card reveal reveal-delay-4">
-        <div class="biz-card-icon">🌸</div>
+        <div class="biz-card-icon" aria-hidden="true">🌸</div>
         <div class="biz-card-phase">既存</div>
         <div class="biz-card-name">地域活性化<br>イベント</div>
         <div class="biz-card-kpi">集客数<br>協賛額</div>
       </div>
       <div class="biz-card reveal reveal-delay-5">
-        <div class="biz-card-icon">📊</div>
+        <div class="biz-card-icon" aria-hidden="true">📊</div>
         <div class="biz-card-phase">既存</div>
         <div class="biz-card-name">経営コンサルティング</div>
         <div class="biz-card-kpi">顧問先数拡大<br>時間単価最大化</div>
@@ -1182,37 +1209,37 @@
     </div>
     <div class="results-grid">
       <div class="result-card reveal reveal-delay-1">
-        <div class="result-card-icon">💰</div>
+        <div class="result-card-icon" aria-hidden="true">💰</div>
         <div class="result-value"><span>700</span>万円</div>
         <div class="result-label">ベーカリー事業 月商</div>
         <div class="result-note">FC運営 + AI最適化による<br>売上・利益率の改善</div>
       </div>
       <div class="result-card reveal reveal-delay-2">
-        <div class="result-card-icon">📈</div>
+        <div class="result-card-icon" aria-hidden="true">📈</div>
         <div class="result-value"><span>500</span>万円</div>
         <div class="result-label">コスト削減 / 利益改善効果</div>
         <div class="result-note">AI導入による業務効率化と<br>人件費最適化の累計効果</div>
       </div>
       <div class="result-card reveal reveal-delay-3">
-        <div class="result-card-icon">🎯</div>
+        <div class="result-card-icon" aria-hidden="true">🎯</div>
         <div class="result-value"><span>1,000</span>円</div>
         <div class="result-label">プログラミング教室 CPA</div>
         <div class="result-note">AI活用マーケティングによる<br>顧客獲得単価の最適化</div>
       </div>
       <div class="result-card reveal reveal-delay-1">
-        <div class="result-card-icon">🤖</div>
+        <div class="result-card-icon" aria-hidden="true">🤖</div>
         <div class="result-value"><span>55</span>機能</div>
         <div class="result-label">AI Executive Advisor System</div>
         <div class="result-note">スキル31・コマンド6・Agent18<br>全て稼働中</div>
       </div>
       <div class="result-card reveal reveal-delay-2">
-        <div class="result-card-icon">✍️</div>
+        <div class="result-card-icon" aria-hidden="true">✍️</div>
         <div class="result-value"><span>100</span>万円</div>
         <div class="result-label">SEO記事 経済効果（推定）</div>
         <div class="result-note">自動化パイプラインによる<br>コンテンツ量産の広告換算額</div>
       </div>
       <div class="result-card reveal reveal-delay-3">
-        <div class="result-card-icon">🌸</div>
+        <div class="result-card-icon" aria-hidden="true">🌸</div>
         <div class="result-value"><span>100</span>名+</div>
         <div class="result-label">地域イベント 集客実績</div>
         <div class="result-note">門真まつり・スマイルハート等<br>地域活性化プロジェクト</div>
@@ -1298,7 +1325,7 @@
 <section id="contact" class="section">
   <div class="container">
     <div class="contact-inner">
-      <div class="section-label reveal" style="text-align:center; display:block; margin-bottom:16px;">Contact / CTA</div>
+      <div class="section-label reveal u-center">Contact / CTA</div>
       <h2 class="contact-title reveal">
         経営 × AI で、<br>あなたの事業を加速させましょう
       </h2>
@@ -1309,24 +1336,24 @@
       </p>
       <div class="contact-links reveal reveal-delay-2">
         <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="contact-link-card">
-          <div class="contact-link-icon">✉️</div>
+          <div class="contact-link-icon" aria-hidden="true">✉️</div>
           <div class="contact-link-type">DM / Contact</div>
           <div class="contact-link-value">DMで相談する</div>
         </a>
         <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="contact-link-card">
-          <div class="contact-link-icon">📸</div>
+          <div class="contact-link-icon" aria-hidden="true">📸</div>
           <div class="contact-link-type">Instagram</div>
           <div class="contact-link-value">フォローする</div>
         </a>
-        <a href="#contact" class="contact-link-card">
-          <div class="contact-link-icon">🤝</div>
+        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="contact-link-card">
+          <div class="contact-link-icon" aria-hidden="true">🤝</div>
           <div class="contact-link-type">顧問依頼</div>
           <div class="contact-link-value">詳しく聞く</div>
         </a>
       </div>
       <div class="contact-cta-row reveal reveal-delay-3">
-        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size:0.95rem; padding:14px 36px;">顧問・AI導入を相談する</a>
-        <a href="#projects" class="btn btn-ghost" style="font-size:0.95rem; padding:14px 36px;">プロジェクトを見る</a>
+        <a href="https://www.instagram.com/sumomo_kadoma/" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">顧問・AI導入を相談する</a>
+        <a href="#projects" class="btn btn-ghost btn-lg">プロジェクトを見る</a>
       </div>
     </div>
   </div>
@@ -1346,68 +1373,7 @@
   </div>
 </footer>
 
-<!-- ─── SCRIPT ──────────────────────────────────────────────────── */
-<script>
-  // NAV scroll shadow
-  const nav = document.getElementById('mainNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
-
-  // Hamburger / Mobile nav
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-  const mobileClose = document.getElementById('mobileClose');
-  hamburger.addEventListener('click', () => {
-    mobileNav.classList.add('open');
-    hamburger.setAttribute('aria-expanded', 'true');
-  });
-  mobileClose.addEventListener('click', () => {
-    mobileNav.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-  });
-  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    mobileNav.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-  }));
-
-  // JS が動作していることを body に伝え、アニメーションCSSを有効化
-  document.body.classList.add('js-ready');
-
-  // IntersectionObserver — reveal
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.05 });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    // 既にビューポート内の要素は即時表示
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight) {
-      el.classList.add('show');
-    } else {
-      revealObserver.observe(el);
-    }
-  });
-
-  // Progress bars — animate on scroll
-  const barObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.skill-bar-fill').forEach(fill => {
-          const w = fill.getAttribute('data-width');
-          setTimeout(() => { fill.style.width = w + '%'; }, 200);
-        });
-        barObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  document.querySelectorAll('.skill-bars').forEach(el => barObserver.observe(el));
-</script>
+<!-- R-1: インラインスクリプトを外部ファイルに分離（単一責任・CSP対応） -->
+<script src="js/main.js" defer></script>
 </body>
 </html>
