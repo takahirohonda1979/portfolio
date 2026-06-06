@@ -94,6 +94,9 @@ function initReveal() {
   // JS 有効フラグを body に付与（CSS の .js-ready セレクタと連動）
   document.body.classList.add('js-ready');
 
+  // rootMargin を使い初期ビューポート内の要素も IntersectionObserver で処理する。
+  // 手動 getBoundingClientRect 判定を廃止し、負の top（スクロール済み要素）の
+  // 誤判定バグを排除する。
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -101,17 +104,12 @@ function initReveal() {
         observer.unobserve(entry.target); // 一度表示したら監視解除（メモリ節約）
       }
     });
-  }, { threshold: CONFIG.REVEAL_THRESHOLD });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    const rect = el.getBoundingClientRect();
-    // 初期表示時にすでにビューポート内にある要素は即時表示
-    if (rect.top < window.innerHeight) {
-      el.classList.add('show');
-    } else {
-      observer.observe(el);
-    }
+  }, {
+    threshold: CONFIG.REVEAL_THRESHOLD,
+    rootMargin: '0px 0px -40px 0px',
   });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
 
 /* ─── initSkillBars ─────────────────────────────────────────────────
