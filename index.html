@@ -10,9 +10,18 @@
   <meta property="og:locale" content="ja_JP">
   <title>本田 貴裕 | 経営者 × AI Developer</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥐</text></svg>" />
+  <!-- S-3: Content-Security-Policy — インラインスクリプト・外部リソースを制限 -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self';
+             script-src 'self';
+             style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+             font-src https://fonts.gstatic.com;
+             img-src 'self' data:;
+             connect-src 'none';" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- P-3: display=swap で FOUT を防止 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
     /* ─── RESET & TOKENS ──────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -848,7 +857,10 @@
           <img
             src="assets/images/achievement.png"
             alt="本田 貴裕 — 実績サマリー：WEB月商500万円・ベーカリー月商700万円・AI 55機能構築"
-          >
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
           <div class="hero-img-tag">
             <div class="hero-img-tag-label">AI System</div>
             <div class="hero-img-tag-value">55機能 構築</div>
@@ -1346,68 +1358,7 @@
   </div>
 </footer>
 
-<!-- ─── SCRIPT ──────────────────────────────────────────────────── */
-<script>
-  // NAV scroll shadow
-  const nav = document.getElementById('mainNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 10);
-  }, { passive: true });
-
-  // Hamburger / Mobile nav
-  const hamburger = document.getElementById('hamburger');
-  const mobileNav = document.getElementById('mobileNav');
-  const mobileClose = document.getElementById('mobileClose');
-  hamburger.addEventListener('click', () => {
-    mobileNav.classList.add('open');
-    hamburger.setAttribute('aria-expanded', 'true');
-  });
-  mobileClose.addEventListener('click', () => {
-    mobileNav.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-  });
-  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    mobileNav.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', 'false');
-  }));
-
-  // JS が動作していることを body に伝え、アニメーションCSSを有効化
-  document.body.classList.add('js-ready');
-
-  // IntersectionObserver — reveal
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.05 });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    // 既にビューポート内の要素は即時表示
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight) {
-      el.classList.add('show');
-    } else {
-      revealObserver.observe(el);
-    }
-  });
-
-  // Progress bars — animate on scroll
-  const barObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.skill-bar-fill').forEach(fill => {
-          const w = fill.getAttribute('data-width');
-          setTimeout(() => { fill.style.width = w + '%'; }, 200);
-        });
-        barObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  document.querySelectorAll('.skill-bars').forEach(el => barObserver.observe(el));
-</script>
+<!-- R-1: インラインスクリプトを外部ファイルに分離（単一責任・CSP対応） -->
+<script src="js/main.js" defer></script>
 </body>
 </html>
